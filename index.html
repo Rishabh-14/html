@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+    <title>Text to HTML Converter</title>
+    <script>
+      function textToHtml(text, element = 'pre') {
+        // Replace new lines with HTML line breaks
+        let html = text.replace(/\n/g, '<br>');
+
+        // Replace spaces with non-breaking spaces
+        html = html.replace(/ /g, '&nbsp;');
+
+        // Replace leading and trailing white spaces in each line
+        html = html.replace(/^( +)|( +)$/gm, m => '&nbsp;'.repeat(m.length));
+
+        // Replace tabs with non-breaking spaces
+        html = html.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+
+        // Wrap the HTML in the specified element to preserve spacing
+        html = '<' + element + '>' + html + '</' + element + '>';
+
+        return html;
+      }
+
+      function convertText() {
+        const text = document.getElementById('input-text').value;
+        const html = textToHtml(text);
+        document.getElementById('output-html').innerHTML = html;
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Text to HTML Converter</h1>
+    <form>
+      <label for="input-text">Enter text:</label><br>
+      <textarea id="input-text" name="input-text" rows="10" cols="50"></textarea><br>
+      <button type="button" onclick="convertText()">Convert to HTML</button>
+    </form>
+    <div id="output-html"></div>
+  </body>
+</html>
